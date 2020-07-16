@@ -10,10 +10,16 @@ class CommentInput extends Component {
     this.textareaNode = undefined
   }
 
+  // 自动聚焦到评论输入框
   componentDidMount(){
     if(this.textareaNode){
       this.textareaNode.focus()
     }
+  }
+
+  // 自动加载当前浏览器用户的用户名
+  componentWillMount(){
+    this._loadUserName()
   }
 
   // 监听输入username onchange调用 改变state中的状态 再更新到输入框的value中
@@ -42,6 +48,15 @@ class CommentInput extends Component {
 
   _saveUserName(username){
     localStorage.setItem('username',username)
+  }
+
+  _loadUserName(){
+    let username = localStorage.getItem("username")
+    if(username){
+      this.setState({
+        username
+      })
+    }
   }
 
   handleUserNameBlur(e){
