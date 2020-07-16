@@ -12,9 +12,13 @@ class CommentApp extends Component {
 
   }
 
+  componentWillMount(){
+    this._loadComments()
+  }
+
   // 把这个函数下发给CommentInput  让CommentInput调用这个函数 把数据传上来
   handleSubmitComment(comment){
-    console.log(comment)
+    console.log("this comment:",comment)
 
     if(!comment) return 
     if(!comment.username) return alert("Input your username!")
@@ -25,6 +29,23 @@ class CommentApp extends Component {
     this.setState({
       comments: this.state.comments
     })
+
+    this._saveComments(this.state.comments)
+  }
+
+  _saveComments(comments){
+    localStorage.setItem("comments",JSON.stringify(comments))
+  }
+
+  _loadComments(){
+    let comments = localStorage.getItem("comments")
+    if(comments){
+      comments = JSON.parse(comments)
+      console.log("comments:",comments)
+      this.setState({
+        comments
+      })
+    }
   }
 
   render() {
